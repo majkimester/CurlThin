@@ -1,54 +1,86 @@
-﻿function GetLibcurlArch($arch, $version)
+﻿#Requires -Version 5
+
+$packWorkDir = "PackResources"
+
+if (Test-Path $packWorkDir) {
+    Remove-Item $packWorkDir -Recurse }
+
+New-Item -Name "$packWorkDir" -ItemType "directory"
+
+New-Item -Name "$packWorkDir\win32" -ItemType "directory"
+New-Item -Name "$packWorkDir\win64" -ItemType "directory"
+
+function FetchWinCurlAndExtractLib
 {
-    Invoke-WebRequest `
-        "https://bintray.com/artifact/download/vszakats/generic/curl-$version-$arch-mingw.zip" `
-        -OutFile "curl-$arch-mingw.zip"
+    param (
+        [string] $osArchSlug,
+        [string] $versionSlug,
+        [bool] $onlyIfMissing = $true,
+        [bool] $deleteDownloadedArchive = $true
+    )
 
-    Expand-Archive -Path "curl-$arch-mingw.zip" -DestinationPath "."
-    Remove-Item "curl-$arch-mingw.zip"
+    $curlArchiveName = "curl-$versionSlug-$osArchSlug-mingw.zip"
 
-    if ($arch -eq "win32")
+    $usingExistingFile = $onlyIfMissing -and (Test-Path $curlArchiveName)
+    
+    if ($usingExistingFile)
     {
-        $libcurlDll = "libcurl.dll"
+        Write-Host("$curlArchiveName already exists")
     }
     else
     {
-        $libcurlDll = "libcurl-x64.dll"
+        $url = "https://curl.se/windows/dl-$versionSlug/$filename" # e.g. "https://curl.se/windows/dl-8.7.1_7/curl-8.7.1_7-win64-mingw.zip"
+        # Only versions 8.2.0 and later are available at this host
+
+        Write-Host "$curlArchiveName does not exist; fetching from $url"
+
+        try
+        {
+            Invoke-WebRequest $url -OutFile "$curlArchiveName"
+            # Some versions of SChannel do not support any of the cipher suites used by this host, so this will fail with "Could not create SSL/TLS secure channel"
+        }
+        catch
+        {
+            Write-Error $_
+            Write-Host "Download failed; aborting script"
+            return 1
+        }
     }
 
-    Copy-Item -Path "curl-$version-$arch-mingw\bin\$libcurlDll" -Destination "$arch\libcurl.dll"
-    Copy-Item -Path "curl-$version-$arch-mingw\bin\*.crt" -Destination "$arch\"
-    Remove-Item -Recurse "curl-$version-$arch-mingw"
+    Expand-Archive -Path "$curlArchiveName" -DestinationPath "." -Force
+    $extractDir = [io.Path]::GetFileNameWithoutExtension($curlArchiveName)
+
+    if (-not $usingExistingFile -and $deleteDownloadedArchive) {
+        Remove-Item "$curlArchiveName" }
+
+    if ($osArchSlug -eq "win32") {
+        $libcurlDll = "libcurl.dll" }
+    else {
+        $libcurlDll = "libcurl-x64.dll" }
+
+    Copy-Item -Path "$extractDir\bin\$libcurlDll" -Destination "$packWorkDir\$osArchSlug\libcurl.dll"
+    Copy-Item -Path "$extractDir\bin\*.crt" -Destination "$packWorkDir\$osArchSlug\"
+    Remove-Item -Recurse "$extractDir"
+
+    return 0
 }
 
-function GetOpensslArch($arch, $version)
-{
-    Invoke-WebRequest `
-        "https://bintray.com/artifact/download/vszakats/generic/openssl-$version-$arch-mingw.zip" `
-        -OutFile "openssl-$arch-mingw.zip"
+if (FetchWinCurlAndExtractLib "win32" "8.7.1_7" -ne 0) { return }
+if (FetchWinCurlAndExtractLib "win64" "8.7.1_7" -ne 0) { return }
 
-    Expand-Archive -Path "openssl-$arch-mingw.zip" -DestinationPath "."
-    Remove-Item "openssl-$arch-mingw.zip"
-    Copy-Item -Path "openssl-$version-$arch-mingw\*.dll" -Destination "$arch\"
-    Remove-Item -Recurse "openssl-$version-$arch-mingw"
-}
+$packArchiveName = "Resources.zip"
 
-New-Item -Name win64 -ItemType "directory"
-New-Item -Name win32 -ItemType "directory"
-
-GetLibcurlArch win64 "7.69.1"
-GetLibcurlArch win32 "7.69.1"
-
-GetOpensslArch win64 "1.1.1f"
-GetOpensslArch win32 "1.1.1f"
+if (Test-Path $packArchiveName) {
+    Remove-Item $packArchiveName }
 
 $compress = @{
-    Path = "win64", "win32"
+    Path = "$packWorkDir\win32", "$packWorkDir\win64"
     CompressionLevel = "Optimal"
-    DestinationPath = "Resources.zip"
+    DestinationPath = $packArchiveName
 }
 
 Compress-Archive @compress
 
-Remove-Item -Recurse win64
-Remove-Item -Recurse win32
+Remove-Item -Recurse "$packWorkDir"
+
+Write-Host "$packArchiveName build finished."
