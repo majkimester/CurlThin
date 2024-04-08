@@ -3,7 +3,7 @@
   <PropertyGroup Label="NuGet">
     <Description>Contains x86 and x64 native libcurl binaries for Windows. Current libcurl version: 8.7.1_7 released on the 27th of March 2024.</Description>
     <PackageTags>libcurl native binaries x86 x64</PackageTags>
-    <PackageIcon>icon.png</PackageIcon>
+    <PackageIcon></PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -12,10 +12,6 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Resources.zip" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="NuGet\icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>
