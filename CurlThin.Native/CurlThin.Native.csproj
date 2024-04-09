@@ -11,6 +11,7 @@
     <Version>0.1.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>CurlThin Contributors</Authors>
+    <PackageId>CurlThin-tfusion.Native</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
