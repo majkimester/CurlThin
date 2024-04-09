@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 
-namespace CurlThin
+namespace CurlThin.HyperPipe
 {
     public static class Logging
     {
