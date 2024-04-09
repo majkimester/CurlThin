@@ -1,7 +1,16 @@
-# CurlThin #
-[![Gitter](https://img.shields.io/gitter/room/CurlThin/Lobby.svg)](https://gitter.im/CurlThin/Lobby)
+Simple fork of CurlThin.
 
+### Changes
+* NuGet package ID changed (_from_ `CurlThin` _to_ `CurlThin-tfusion`)
+* Reverted highly incompatible target framework (_from_ .NET Standard 2.1 _to_ .Net Standard 2.0)
+* Updated native libcurl resources (_from_ 7.69.1 ca 2020-03 _to_ 8.7.1 ca 2024-03)
+* Updated some minor NuGet dependencies
 
+<br/>
+Modified original readme below.
+<hr/>
+
+# CurlThin
 _CurlThin_ is a NET Standard compatible binding library against [libcurl](http://curl.haxx.se/libcurl).
 It includes a modern wrapper for `curl_multi` interface which uses polling with [libuv](https://libuv.org/) library instead of using inefficient `select`.
 
@@ -9,17 +18,23 @@ _CurlThin_ has a very thin abstraction layer, which means that writing the code 
 
 Using this library is very much like working with cURL's raw C API.
 
-### License ###
-Library is MIT licensed. NuGet icon made by [Freepik](http://www.freepik.com) and is licensed by [CC 3.0 BY](https://creativecommons.org/licenses/by/3.0/)
+### License
+Library is MIT licensed.
 
-## Installation ##
+## Installation
+Release assemblies and nupkgs are available from the [Releases](https://github.com/TiberiumFusion/CurlThin/releases) page.
 
-| Package   | NuGet        | MyGet | Description  |
-|-----------|--------------|-------|--------------|
-| `CurlThin` | [![Nuget](https://img.shields.io/nuget/v/CurlThin.svg)](https://www.nuget.org/packages/CurlThin/) | ![MyGet](https://img.shields.io/myget/curlthin/vpre/CurlThin.svg) | The C# wrapper for libcurl.  |
-| `CurlThin.Native` | [![Nuget](https://img.shields.io/nuget/v/CurlThin.Native.svg)](https://www.nuget.org/packages/CurlThin.Native/) | ![MyGet](https://img.shields.io/myget/curlthin/vpre/CurlThin.Native.svg) | Contains embedded libcurl native binaries for x86 and x64 Windows. |
+This is a small-fry fork, so the nupkgs are _not_ on the global nuget.org repository. Add them to your project via a [local NuGet package repository](https://stackoverflow.com/a/48549013).
 
-If you have `libcurl` or `libcurl.dll` already in your PATH directory, you don't need to install `CurlThin.Native` package. Once you have installed `CurlThin.Native` NuGet package, call following method just once before you use cURL:
+| Package   | Description  |
+|-----------|--------------|
+| `CurlThin-tfusion` | The C# wrapper for libcurl.  |
+| `CurlThin-tfusion.Native` | Contains the embedded libcurl native binaries for x86 and x64 Windows. |
+
+`CurlThin-tfusion.Native` provides the native curl library for machines that do *not* have [libcurl](https://curl.se/windows/) in their PATH.
+<br/>If libcurl is already installed and in your PATH, you can skip `CurlThin-tfusion.Native`.
+
+After you add `CurlThin-tfusion.Native` to your project, your program *must* call the following method just once, before you can use curl:
 
 ```csharp
 CurlResources.Init();
@@ -29,16 +44,14 @@ It will extract following files to your application output directory
 
 | Windows x86 | Windows x64 | Description |
 |-------------|-------------|-------------|
-| libcurl.dll | libcurl.dll | The multiprotocol file transfer library. |
-| libssl-1_1.dll | libssl-1_1-x64.dll | Portion of OpenSSL which supports TLS ( SSL and TLS Protocols), and depends on libcrypto. |
-| libcrypto-1_1.dll | libcrypto-1_1-x64.dll | Provides the fundamental cryptographic routines used by libssl. |
-| curl-ca-bundle.crt | curl-ca-bundle.crt | Certificate Authority (CA) bundle. You can use it via [`CURLOPT_CAINFO`](https://curl.haxx.se/libcurl/c/CURLOPT_CAINFO.html). |
+| libcurl.dll | libcurl.dll | The multiprotocol file transfer library, with all dependencies included. |
+| curl-ca-bundle.crt | curl-ca-bundle.crt | Certificate Authority (CA) bundle. You can use it via [`CURLOPT_CAINFO`](https://curl.se/libcurl/c/CURLOPT_CAINFO.html). |
 
-## Examples ##
+## Examples
 
-### Easy interface ###
+### Easy interface
 
-#### GET request ####
+#### GET request
 ```csharp
 // curl_global_init() with default flags.
 var global = CurlNative.Init();
@@ -78,7 +91,7 @@ finally
 ```
 
 
-#### POST request ####
+#### POST request
 ```csharp
 // curl_global_init() with default flags.
 var global = CurlNative.Init();
@@ -123,7 +136,7 @@ finally
 }
 ```
 
-### Multi interface ###
+### Multi interface
 
-#### Web scrape StackOverflow questions ####
+#### Web scrape StackOverflow questions
 See [Multi/HyperSample.cs](CurlThin.Samples/Multi/HyperSample.cs).
