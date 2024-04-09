@@ -1,4 +1,4 @@
-Simple fork of CurlThin.
+Simple fork of [CurlThin](https://github.com/stil/CurlThin).
 
 ### Changes
 * NuGet package ID changed (_from_ `CurlThin` _to_ `CurlThin-tfusion`)
@@ -11,7 +11,7 @@ Modified original readme below.
 <hr/>
 
 # CurlThin
-_CurlThin_ is a NET Standard compatible binding library against [libcurl](http://curl.haxx.se/libcurl).
+_CurlThin_ is a NET Standard compatible binding library against [libcurl](https://curl.se/libcurl/).
 It includes a modern wrapper for `curl_multi` interface which uses polling with [libuv](https://libuv.org/) library instead of using inefficient `select`.
 
 _CurlThin_ has a very thin abstraction layer, which means that writing the code is as close as possible to writing purely in libcurl. libcurl has extensive documentation and relatively strong support of community and not having additional abstraction layer makes it easier to search solutions for your problems.
@@ -34,7 +34,7 @@ This is a small-fry fork, so the nupkgs are _not_ on the global nuget.org reposi
 `CurlThin-tfusion.Native` provides the native curl library for machines that do *not* have [libcurl](https://curl.se/windows/) in their PATH.
 <br/>If libcurl is already installed and in your PATH, you can skip `CurlThin-tfusion.Native`.
 
-After you add `CurlThin-tfusion.Native` to your project, your program *must* call the following method just once, before you can use curl:
+After you add `CurlThin-tfusion.Native` to your project, your program *must* call the following method just once, before you can use cURL:
 
 ```csharp
 CurlResources.Init();
@@ -42,10 +42,10 @@ CurlResources.Init();
 
 It will extract following files to your application output directory
 
-| Windows x86 | Windows x64 | Description |
-|-------------|-------------|-------------|
-| libcurl.dll | libcurl.dll | The multiprotocol file transfer library, with all dependencies included. |
-| curl-ca-bundle.crt | curl-ca-bundle.crt | Certificate Authority (CA) bundle. You can use it via [`CURLOPT_CAINFO`](https://curl.se/libcurl/c/CURLOPT_CAINFO.html). |
+| File | Description |
+|-------------|-------------|
+| libcurl.dll | The multiprotocol file transfer library, with all dependencies included. |
+| curl-ca-bundle.crt | Certificate Authority (CA) bundle. You can use it via [`CURLOPT_CAINFO`](https://curl.se/libcurl/c/CURLOPT_CAINFO.html). |
 
 ## Examples
 
