@@ -1,10 +1,11 @@
 Simple fork of [CurlThin](https://github.com/stil/CurlThin).
 
 ### Changes
-* NuGet package ID changed (_from_ `CurlThin` _to_ `CurlThin-tfusion`)
-* Reverted highly incompatible target framework (_from_ .NET Standard 2.1 _to_ .Net Standard 2.0)
-* Updated native libcurl resources (_from_ 7.69.1 ca 2020-03 _to_ 8.7.1 ca 2024-03)
-* Updated some minor NuGet dependencies
+- NuGet package ID root changed (_from_ `CurlThin` _to_ `CurlThin-tfusion`).
+- Reverted highly incompatible target framework (_from_ .NET Standard 2.1 _to_ .Net Standard 2.0)
+- `HyperPipe` excised from `CurlThin` into a separate package `CurlThin.HyperPipe` (to relegate obnoxious dependencies if unused)
+- Updated native libcurl resources (_from_ 7.69.1 ca 2020-03 _to_ 8.7.1 ca 2024-03).
+- Updated some minor NuGet dependencies for `HyperPipe`.
 
 <br/>
 Modified original readme below.
@@ -24,11 +25,12 @@ Library is MIT licensed.
 ## Installation
 Release assemblies and nupkgs are available from the [Releases](https://github.com/TiberiumFusion/CurlThin/releases) page.
 
-This is a small-fry fork, so the nupkgs are _not_ on the global nuget.org repository. Add them to your project via a [local NuGet package repository](https://stackoverflow.com/a/48549013).
+This is a small-fry fork with minimal testing, so the nupkgs are _not_ on the global nuget.org repository. Add them to your project via a [local NuGet package repository](https://stackoverflow.com/a/48549013).
 
 | Package   | Description  |
 |-----------|--------------|
 | `CurlThin-tfusion` | The C# wrapper for libcurl.  |
+| `CurlThin-tfusion.HyperPipe` | Optional convenience interface for using `curl_multi`.  |
 | `CurlThin-tfusion.Native` | Contains the embedded libcurl native binaries for x86 and x64 Windows. |
 
 `CurlThin-tfusion.Native` provides the native curl library for machines that do *not* have [libcurl](https://curl.se/windows/) in their PATH.
