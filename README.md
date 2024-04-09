@@ -23,7 +23,7 @@ Using this library is very much like working with cURL's raw C API.
 Library is MIT licensed.
 
 ## Installation
-Release assemblies and nupkgs are available from the [Releases](https://github.com/TiberiumFusion/CurlThin/releases) page. Add them to your project via a [local NuGet package repository](https://stackoverflow.com/a/48549013). The nupkgs are _not_ on the global nuget.org repository.
+Release nupkgs are available from the [Releases](https://github.com/TiberiumFusion/CurlThin/releases) page. Add them to your project via a [local NuGet package repository](https://stackoverflow.com/a/48549013). These nupkgs are _not_ on the global nuget.org repository.
 
 | Package   | Description  |
 |-----------|--------------|
