@@ -4,6 +4,7 @@ Simple fork of [CurlThin](https://github.com/stil/CurlThin).
 - NuGet package ID root changed (_from_ `CurlThin` _to_ `CurlThin-tfusion`).
 - Reverted highly incompatible target framework (_from_ .NET Standard 2.1 _to_ .Net Standard 2.0)
 - `HyperPipe` excised from `CurlThin` into a separate package `CurlThin.HyperPipe` (to relegate obnoxious dependencies if unused)
+- Fixed x86 build of CurlThin not working at all (when using official libcurl win binary or other non-MSVC builds)
 - Updated native libcurl resources (_from_ 7.69.1 ca 2020-03 _to_ 8.7.1 ca 2024-03).
 - Updated some minor NuGet dependencies for `HyperPipe`.
 
