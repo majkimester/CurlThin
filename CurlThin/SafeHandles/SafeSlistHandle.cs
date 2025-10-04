@@ -9,6 +9,18 @@ namespace CurlThin.SafeHandles
         {
         }
 
+        public SafeSlistHandle Append(string data)
+        {
+            if (IsClosed)
+                throw new ObjectDisposedException(nameof(SafeSlistHandle));
+
+            IntPtr newPtr = CurlNative.Slist.Append(handle, data);
+            if (newPtr == IntPtr.Zero)
+                throw new InvalidOperationException("CurlNative.Slist.Append failed");
+            SetHandle(newPtr);
+            return this;
+        }
+
         public override bool IsInvalid => handle == IntPtr.Zero;
 
         public static SafeSlistHandle Null => new SafeSlistHandle();

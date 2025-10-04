@@ -95,6 +95,9 @@ namespace CurlThin
             [UnmanagedFunctionPointer(CALLING_CONVENTION)]
             public delegate UIntPtr DataHandler(IntPtr data, UIntPtr size, UIntPtr nmemb, IntPtr userdata);
 
+            [UnmanagedFunctionPointer(CALLING_CONVENTION)]
+            public delegate int XferInfoFunctionDelegate(IntPtr clientp, long dltotal, long dlnow, long ultotal, long ulnow);
+
             [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_easy_init")]
             public static extern SafeEasyHandle Init();
 
@@ -121,6 +124,9 @@ namespace CurlThin
 
             [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_easy_setopt")]
             public static extern CURLcode SetOpt(SafeEasyHandle handle, CURLoption option, DataHandler value);
+
+            [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_easy_setopt")]
+            public static extern CURLcode SetOpt(SafeEasyHandle handle, CURLoption option, XferInfoFunctionDelegate callback);
 
             [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_easy_getinfo")]
             public static extern CURLcode GetInfo(SafeEasyHandle handle, CURLINFO option, out int value);
@@ -201,8 +207,8 @@ namespace CurlThin
         public static class Slist
         {
             [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_slist_append")]
-            public static extern SafeSlistHandle Append(SafeSlistHandle slist, string data);
-            
+            public static extern IntPtr Append(IntPtr list, string data);
+
             [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_slist_free_all")]
             public static extern void FreeAll(IntPtr handle);
         }

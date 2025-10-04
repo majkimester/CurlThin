@@ -15,6 +15,7 @@ namespace CurlThin.Samples.Easy
 
             // curl_easy_init() to create easy handle.
             var easy = CurlNative.Easy.Init();
+            var headers = SafeSlistHandle.Null;
             try
             {
                 var dataCopier = new DataCallbackCopier();
@@ -23,9 +24,10 @@ namespace CurlThin.Samples.Easy
                 CurlNative.Easy.SetOpt(easy, CURLoption.WRITEFUNCTION, dataCopier.DataHandler);
 
                 // Initialize HTTP header list with first value.
-                var headers = CurlNative.Slist.Append(SafeSlistHandle.Null, "X-Foo: Bar");
+                headers.Append("X-Foo: Bar");
+
                 // Add one more value to existing HTTP header list.
-                CurlNative.Slist.Append(headers, "X-Qwerty: Asdfgh");
+                headers.Append("X-Qwerty: Asdfgh");
 
                 // Configure libcurl easy handle to send HTTP headers we configured.
                 CurlNative.Easy.SetOpt(easy, CURLoption.HTTPHEADER, headers.DangerousGetHandle());
@@ -45,7 +47,8 @@ namespace CurlThin.Samples.Easy
             }
             finally
             {
-                easy.Dispose();
+                headers?.Dispose();
+                easy?.Dispose();
 
                 if (global == CURLcode.OK)
                 {
