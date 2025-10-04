@@ -111,6 +111,9 @@ namespace CurlThin
             public static extern CURLcode SetOpt(SafeEasyHandle handle, CURLoption option, int value);
 
             [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_easy_setopt")]
+            public static extern CURLcode SetOpt(SafeEasyHandle handle, CURLoption option, CURLAUTH value);
+
+            [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_easy_setopt")]
             public static extern CURLcode SetOpt(SafeEasyHandle handle, CURLoption option, IntPtr value);
 
             [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_easy_setopt", CharSet = CharSet.Ansi)]
