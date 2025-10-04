@@ -201,7 +201,7 @@ namespace CurlThin
             public static extern SafeSlistHandle Append(SafeSlistHandle slist, string data);
             
             [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_slist_free_all")]
-            public static extern void FreeAll(SafeSlistHandle pList);
+            public static extern void FreeAll(IntPtr handle);
         }
 
         #endregion

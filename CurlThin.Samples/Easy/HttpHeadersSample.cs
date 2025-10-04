@@ -33,7 +33,10 @@ namespace CurlThin.Samples.Easy
                 var result = CurlNative.Easy.Perform(easy);
 
                 // Cleanup HTTP header list after request has complete.
-                CurlNative.Slist.FreeAll(headers);
+                if (headers != null)
+                {
+                    headers.Dispose();
+                }
 
                 Console.WriteLine($"Result code: {result}.");
                 Console.WriteLine();

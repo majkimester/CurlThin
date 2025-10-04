@@ -5,7 +5,7 @@ namespace CurlThin.SafeHandles
 {
     public sealed class SafeSlistHandle : SafeHandle
     {
-        private SafeSlistHandle() : base(IntPtr.Zero, false)
+        private SafeSlistHandle() : base(IntPtr.Zero, true)
         {
         }
 
@@ -15,7 +15,7 @@ namespace CurlThin.SafeHandles
 
         protected override bool ReleaseHandle()
         {
-            CurlNative.Slist.FreeAll(this);
+            CurlNative.Slist.FreeAll(handle);
             return true;
         }
     }
