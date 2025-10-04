@@ -7,6 +7,9 @@ Fork of [CurlThin](https://github.com/TiberiumFusion/CurlThin)
   https://curl.se/windows/dl-8.15.0_5/curl-8.15.0_5-win32-mingw.zip
   https://curl.se/windows/dl-8.15.0_5/curl-8.15.0_5-win64-mingw.zip
   https://curl.se/windows/dl-8.15.0_5/curl-8.15.0_5-win64a-mingw.zip
+- Delegate for XferInfo added
+- Append header is now ready for using from loop
+- Authentication type is selectable
 
 <br/>
 Modified original readme below.
