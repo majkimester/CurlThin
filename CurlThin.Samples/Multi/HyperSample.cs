@@ -1,12 +1,10 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CurlThin.Enums;
 using CurlThin.Helpers;
 using CurlThin.HyperPipe;
-using CurlThin.Native;
 using CurlThin.SafeHandles;
 
 namespace CurlThin.Samples.Multi
@@ -94,7 +92,7 @@ namespace CurlThin.Samples.Multi
             CurlNative.Easy.SetOpt(easy, CURLoption.WRITEFUNCTION, context.ContentData.DataHandler);
 
             // Point the certificate bundle file path to verify HTTPS certificates.
-            CurlNative.Easy.SetOpt(easy, CURLoption.CAINFO, CurlResources.CaBundlePath);
+            CurlNative.Easy.SetOpt(easy, CURLoption.CAINFO, "TODO ca bundle path");  // TODO ca bundle path
 
             _currentQuestion++;
             Current = context;

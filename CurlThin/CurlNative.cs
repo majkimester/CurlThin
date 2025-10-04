@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using CurlThin.Enums;
 using CurlThin.SafeHandles;
@@ -13,9 +14,75 @@ namespace CurlThin
     /// </remarks>
     public static class CurlNative
     {
-        private const string LIBCURL = "libcurl";
-
+        private const string LIBCURL = "libcurl.dll";
         private const CallingConvention CALLING_CONVENTION = CallingConvention.Cdecl;
+
+        #region Load platform dependent library
+
+        static CurlNative()
+        {
+            // Load the platform dependent libcurl.dll
+            if (!TryLoadNativeLibrary(AppDomain.CurrentDomain.RelativeSearchPath))
+                TryLoadNativeLibrary(Path.GetDirectoryName(typeof(CurlNative).Assembly.Location));
+        }
+
+        private static bool TryLoadNativeLibrary(string basePath)
+        {
+            if (string.IsNullOrEmpty(basePath))
+                return false;
+
+            string archFolder = GetArchitectureFolder();
+
+            string fullPath = Path.Combine(basePath, archFolder, LIBCURL);
+
+            if (!File.Exists(fullPath))
+                return false;
+
+            IntPtr handle = LoadLibrary(fullPath);
+            return handle != IntPtr.Zero;
+        }
+
+        private static string GetArchitectureFolder()
+        {
+            if (!Environment.Is64BitProcess)
+                return "x86";
+            else
+                return IsArm64() ? "arm64" : "x64";
+        }
+
+        private static bool IsArm64()
+        {
+            SYSTEM_INFO info;
+            GetNativeSystemInfo(out info);
+            const ushort PROCESSOR_ARCHITECTURE_ARM64 = 12;
+            return info.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_ARM64;
+        }
+
+        [DllImport("kernel32.dll")]
+        private static extern void GetNativeSystemInfo(out SYSTEM_INFO lpSystemInfo);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct SYSTEM_INFO
+        {
+            public ushort wProcessorArchitecture;
+            public ushort wReserved;
+            public uint dwPageSize;
+            public IntPtr lpMinimumApplicationAddress;
+            public IntPtr lpMaximumApplicationAddress;
+            public IntPtr dwActiveProcessorMask;
+            public uint dwNumberOfProcessors;
+            public uint dwProcessorType;
+            public uint dwAllocationGranularity;
+            public ushort wProcessorLevel;
+            public ushort wProcessorRevision;
+        }
+
+        [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Auto)]
+        private static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPTStr)] string lpFileName);
+
+        #endregion
+
+        #region libCURL library
 
         [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_global_init")]
         public static extern CURLcode Init(CURLglobal flags = CURLglobal.DEFAULT);
@@ -136,5 +203,7 @@ namespace CurlThin
             [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_slist_free_all")]
             public static extern void FreeAll(SafeSlistHandle pList);
         }
+
+        #endregion
     }
 }

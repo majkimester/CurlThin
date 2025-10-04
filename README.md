@@ -1,12 +1,12 @@
-Simple fork of [CurlThin](https://github.com/stil/CurlThin).
+Fork of [CurlThin](https://github.com/TiberiumFusion/CurlThin)
 
 ### Changes
-- NuGet package ID root changed (_from_ `CurlThin` _to_ `CurlThin-tfusion`).
-- Reverted highly incompatible target framework (_from_ .NET Standard 2.1 _to_ .Net Standard 2.0)
-- `HyperPipe` excised from `CurlThin` into a separate package `CurlThin.HyperPipe` (to relegate obnoxious dependencies if unused)
-- Fixed x86 build of CurlThin not working at all (when using official libcurl win binary or other non-MSVC builds)
-- Updated native libcurl resources (_from_ 7.69.1 ca 2020-03 _to_ 8.7.1 ca 2024-03).
-- Updated some minor NuGet dependencies for `HyperPipe`.
+- Get rid of CurlThin.Native magic and include and load libcurl binaries directly depending of the platform
+- curl-ca-bundle.crt is also included directly - Certificate Authority (CA) bundle. You can use it via [`CURLOPT_CAINFO`](https://curl.se/libcurl/c/CURLOPT_CAINFO.html). |
+- Updated native libcurl resources (_from_ 8.7.1 ca 2024-03 _to_ 8.15.0 ca 2025-08) from here:
+  https://curl.se/windows/dl-8.15.0_5/curl-8.15.0_5-win32-mingw.zip
+  https://curl.se/windows/dl-8.15.0_5/curl-8.15.0_5-win64-mingw.zip
+  https://curl.se/windows/dl-8.15.0_5/curl-8.15.0_5-win64a-mingw.zip
 
 <br/>
 Modified original readme below.
@@ -23,29 +23,6 @@ Using this library is very much like working with cURL's raw C API.
 ### License
 Library is MIT licensed.
 
-## Installation
-Release nupkgs are available from the [Releases](https://github.com/TiberiumFusion/CurlThin/releases) page. Add them to your project via a [local NuGet package repository](https://stackoverflow.com/a/48549013). These nupkgs are _not_ on the global nuget.org repository.
-
-| Package   | Description  |
-|-----------|--------------|
-| `CurlThin-tfusion` | The C# wrapper for libcurl.  |
-| `CurlThin-tfusion.HyperPipe` | Optional convenience interface for using `curl_multi`.  |
-| `CurlThin-tfusion.Native` | Contains the embedded libcurl native binaries for x86 and x64 Windows. |
-
-`CurlThin-tfusion.Native` provides the native curl library for machines that do *not* have [libcurl](https://curl.se/windows/) in their PATH.
-<br/>If libcurl is already installed and in your PATH, you can skip `CurlThin-tfusion.Native`.
-
-After you add `CurlThin-tfusion.Native` to your project, your program *must* call the following method just once, before you can use cURL:
-
-```csharp
-CurlResources.Init();
-```
-
-It will extract following files to your application output directory
-
-| File | Description |
-|-------------|-------------|
-| libcurl.dll | The multiprotocol file transfer library, with all dependencies included. |
 | curl-ca-bundle.crt | Certificate Authority (CA) bundle. You can use it via [`CURLOPT_CAINFO`](https://curl.se/libcurl/c/CURLOPT_CAINFO.html). |
 
 ## Examples

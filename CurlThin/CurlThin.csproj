@@ -3,20 +3,36 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>Thin libcurl wrapper for C#. Keeps original enum naming, so you can easily switch if you already know libcurl.</Description>
-    <PackageProjectUrl>https://github.com/TiberiumFusion/CurlThin</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/TiberiumFusion/CurlThin</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/majkimester/CurlThin</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/majkimester/CurlThin</RepositoryUrl>
     <PackageTags>curl libcurl http</PackageTags>
     <PackageIcon></PackageIcon>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1</Version>
-    <AssemblyVersion>1.0.1.0</AssemblyVersion>
-    <FileVersion>1.0.1.0</FileVersion>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
     <Authors>CurlThin Contributors</Authors>
-    <PackageId>CurlThin-tfusion</PackageId>
+    <PackageId>CurlThin-majkimester</PackageId>
+    <Copyright>MIT</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="arm64\libcurl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="curl-ca-bundle.crt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="x64\libcurl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="x86\libcurl.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
