@@ -23,8 +23,6 @@ Using this library is very much like working with cURL's raw C API.
 ### License
 Library is MIT licensed.
 
-| curl-ca-bundle.crt | Certificate Authority (CA) bundle. You can use it via [`CURLOPT_CAINFO`](https://curl.se/libcurl/c/CURLOPT_CAINFO.html). |
-
 ## Examples
 
 ### Easy interface
