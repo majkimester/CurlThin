@@ -98,6 +98,9 @@ namespace CurlThin
             [UnmanagedFunctionPointer(CALLING_CONVENTION)]
             public delegate int XferInfoFunctionDelegate(IntPtr clientp, long dltotal, long dlnow, long ultotal, long ulnow);
 
+            [UnmanagedFunctionPointer(CALLING_CONVENTION)]
+            public delegate int CurlDebugCallback(IntPtr handle, curl_infotype type, IntPtr data, UIntPtr size, IntPtr userptr);
+
             [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_easy_init")]
             public static extern SafeEasyHandle Init();
 
@@ -127,6 +130,9 @@ namespace CurlThin
 
             [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_easy_setopt")]
             public static extern CURLcode SetOpt(SafeEasyHandle handle, CURLoption option, XferInfoFunctionDelegate callback);
+
+            [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_easy_setopt")]
+            public static extern CURLcode SetOpt(SafeEasyHandle handle, CURLoption option, CurlDebugCallback callback);
 
             [DllImport(LIBCURL, CallingConvention = CALLING_CONVENTION, EntryPoint = "curl_easy_getinfo")]
             public static extern CURLcode GetInfo(SafeEasyHandle handle, CURLINFO option, out int value);
