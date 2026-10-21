@@ -3,10 +3,10 @@ Fork of [CurlThin](https://github.com/TiberiumFusion/CurlThin)
 ### Changes
 - Get rid of CurlThin.Native magic and include and load libcurl binaries directly depending of the platform
 - curl-ca-bundle.crt is also included directly - Certificate Authority (CA) bundle. You can use it via [`CURLOPT_CAINFO`](https://curl.se/libcurl/c/CURLOPT_CAINFO.html). |
-- Updated native libcurl resources (_from_ 8.7.1 ca 2024-03 _to_ 8.15.0 ca 2025-08) from here:
+- Updated native libcurl resources (_from_ 8.7.1 ca 2024-03 _to_ 8.23.0 ca 2026-10 (x64 and arm64) and 8.15.0 ca 2025-08 (x86)) from here:
   https://curl.se/windows/dl-8.15.0_5/curl-8.15.0_5-win32-mingw.zip
-  https://curl.se/windows/dl-8.15.0_5/curl-8.15.0_5-win64-mingw.zip
-  https://curl.se/windows/dl-8.15.0_5/curl-8.15.0_5-win64a-mingw.zip
+  https://curl.se/windows/dl-8.23.0_3/curl-8.23.0_3-win64-mingw.zip
+  https://curl.se/windows/dl-8.23.0_3/curl-8.23.0_3-win64a-mingw.zip
 - Delegate for XferInfo added
 - Append header is now ready for using from loop
 - Authentication type is selectable
